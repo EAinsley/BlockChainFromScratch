@@ -22,15 +22,16 @@ At this stage, the focus is on:
 
 ## Build & Test
 
-The project uses CMake as its build system.
+The project uses [xmake](https://xmake.io/) as its build system. And I will try
+my best to organize the project utilising c++20's modules.
 
-Basic build and test instructions will be expanded as the project evolves
+Basic build and test instructions will be expanded as the project evolves.
 
 ## Todos
 
 - [ ] Stage 0
   - [x] Initialize project repository and folder structure
-  - [ ] Setup CMake build system
+  - [x] Setup xmake build system.
   - [ ] Hash functionality
   - [ ] Create minimal frontend interface for hash demonstration
   - [ ] Setup basic unit testing framework and verify Hash tests
@@ -69,6 +70,5 @@ Basic build and test instructions will be expanded as the project evolves
   ## Reference
 
   [Block Chain from Scratch - sduprey](https://github.com/sduprey/blockchain_introductory_course/blob/main/blockchain_from_scratch/blockchain.py)
-
   [Simple Blockchain Implementation - fletelli42](https://github.com/fletelli42/SimpleBlockchainImplementation)
   [Simple Blockchian - tko22](https://github.com/tko22/simple-blockchain)
