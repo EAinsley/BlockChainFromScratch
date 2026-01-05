@@ -32,7 +32,7 @@ Basic build and test instructions will be expanded as the project evolves.
 - [ ] Stage 0
   - [x] Initialize project repository and folder structure
   - [x] Setup xmake build system.
-  - [ ] Hash functionality
+  - [x] Hash functionality
   - [ ] Create minimal frontend interface for hash demonstration
   - [ ] Setup basic unit testing framework and verify Hash tests
 

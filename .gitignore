@@ -2,7 +2,11 @@
 .xmake/
 build/
 
-# MacOS Cache
+# MacOS cache
 .DS_Store
 
+# Clangd cache
+.cache
 
+# Platform cache
+compile_commands.json
