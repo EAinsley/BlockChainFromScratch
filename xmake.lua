@@ -9,26 +9,27 @@ add_rules("mode.debug", "mode.release")
 add_requires("openssl")
 add_requires("catch2", {system = false})
 
--- target("core")
---   set_kind("static")
--- TODO: Seperate target: main, test, and static linked core.
-
-target("test")
-  set_kind("binary")
-  -- add_deps("core")
-  add_packages("openssl")
-  add_packages("catch2")
-  add_files("src/core/*.cpp")
+target("core_modules")
+  set_kind("moduleonly")
   add_files("src/core/*.mpp")
+
+target("core")
+  set_kind("static")
+  add_deps("core_modules")
+  add_packages("openssl")
+  add_files("src/core/*.cpp")
+
+target("main")
+  set_kind("binary")
+  add_deps("core")
   add_files("src/main.cpp")
 
--- target("test")
---   set_kind("binary")
---   add_deps("core")
---   add_packages("catch2")
---   add_files("tests/*.cpp")
---
---
+target("test_core")
+  set_kind("binary")
+  add_deps("core")
+  add_packages("catch2")
+  add_files("tests/core/*.cpp")
+
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
 -- ## FAQ
