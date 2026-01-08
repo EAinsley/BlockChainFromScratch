@@ -8,6 +8,7 @@ add_rules("mode.debug", "mode.release")
 
 add_requires("openssl")
 add_requires("catch2", {system = false})
+add_requires("drogon")
 
 target("core_modules")
   set_kind("moduleonly")
@@ -22,6 +23,7 @@ target("core")
 target("main")
   set_kind("binary")
   add_deps("core")
+  add_packages("drogon")
   add_files("src/main.cpp")
 
 target("test_core")

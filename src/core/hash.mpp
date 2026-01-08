@@ -10,5 +10,6 @@ constexpr std::size_t SHA256_SIZE = 32;
 using Sha256Digest = std::array<std::byte, SHA256_SIZE>;
 
 Sha256Digest sha256(std::span<const std::byte> data);
-std::ostream &operator<<(std::ostream &os, const Sha256Digest &digest);
 } // namespace core
+
+export std::ostream &operator<<(std::ostream &os, const core::Sha256Digest &digest);

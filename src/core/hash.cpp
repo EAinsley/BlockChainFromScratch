@@ -15,7 +15,9 @@ Sha256Digest sha256(std::span<const std::byte> data) {
          reinterpret_cast<unsigned char *>(digest.data()));
   return digest;
 }
-std::ostream &operator<<(std::ostream &os, const Sha256Digest &digest) {
+} // namespace core
+
+std::ostream &operator<<(std::ostream &os, const core::Sha256Digest &digest) {
   auto osflags(os.flags());
   auto oswidth(os.width());
   auto osfill(os.fill());
@@ -31,4 +33,3 @@ std::ostream &operator<<(std::ostream &os, const Sha256Digest &digest) {
 
   return os;
 }
-} // namespace core

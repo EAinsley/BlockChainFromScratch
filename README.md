@@ -33,8 +33,9 @@ Basic build and test instructions will be expanded as the project evolves.
   - [x] Initialize project repository and folder structure
   - [x] Setup xmake build system.
   - [x] Hash functionality
+  - [x] Create minimal backend.
   - [ ] Create minimal frontend interface for hash demonstration
-  - [ ] Setup basic unit testing framework and verify Hash tests
+  - [x] Setup basic unit testing framework and verify Hash tests
 
 - [ ] Stage 1 – Block & Blockchain Core
   - [ ] Design Block data structure (header, nonce, hash link)
