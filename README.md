@@ -71,5 +71,7 @@ Basic build and test instructions will be expanded as the project evolves.
   ## Reference
 
   [Block Chain from Scratch - sduprey](https://github.com/sduprey/blockchain_introductory_course/blob/main/blockchain_from_scratch/blockchain.py)
+
   [Simple Blockchain Implementation - fletelli42](https://github.com/fletelli42/SimpleBlockchainImplementation)
+
   [Simple Blockchian - tko22](https://github.com/tko22/simple-blockchain)
