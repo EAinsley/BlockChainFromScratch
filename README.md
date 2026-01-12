@@ -29,12 +29,13 @@ Basic build and test instructions will be expanded as the project evolves.
 
 ## Todos
 
-- [ ] Stage 0
+- [x] Stage 0
   - [x] Initialize project repository and folder structure
   - [x] Setup xmake build system.
   - [x] Hash functionality
   - [x] Create minimal backend.
-  - [ ] Create minimal frontend interface for hash demonstration
+  - [x] Create minimal frontend interface for hash demonstration
+        The frontend is [separated](https://github.com/EAinsley/BlockChainFromScratchFrontend).
   - [x] Setup basic unit testing framework and verify Hash tests
 
 - [ ] Stage 1 – Block & Blockchain Core
