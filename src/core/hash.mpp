@@ -1,5 +1,6 @@
 module;
 
+#include <openssl/evp.h>
 #include <ostream>
 #include <span>
 
@@ -10,6 +11,21 @@ constexpr std::size_t SHA256_SIZE = 32;
 using Sha256Digest = std::array<std::byte, SHA256_SIZE>;
 
 Sha256Digest sha256(std::span<const std::byte> data);
+class Sha256Context {
+private:
+  EVP_MD_CTX *ctx_;
+
+public:
+  Sha256Context();
+  ~Sha256Context();
+  Sha256Context(const Sha256Context &) = delete;
+  Sha256Context &operator=(const Sha256Context &) = delete;
+  Sha256Context(Sha256Context &&) noexcept;
+  Sha256Context &operator=(Sha256Context &&) noexcept;
+  void update(std::span<const std::byte>);
+  Sha256Digest final();
+};
 } // namespace core
 
-export std::ostream &operator<<(std::ostream &os, const core::Sha256Digest &digest);
+export std::ostream &operator<<(std::ostream &os,
+                                const core::Sha256Digest &digest);
