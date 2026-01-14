@@ -42,6 +42,7 @@ Basic build and test instructions will be expanded as the project evolves.
   - [ ] Design Block data structure (header, nonce, hash link)
   - [ ] Implement Blockchain container and basic validation
   - [ ] Integrate Block with Hash functions
+    - [x] Implemented Sha256Context for updating the hash
 
 - [ ] Stage 2 – Mining & Proof-of-Work
   - [ ] Manual mining interface (adjust nonce, test hash)

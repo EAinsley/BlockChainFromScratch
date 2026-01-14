@@ -4,13 +4,13 @@ module;
 #include <iomanip>
 #include <ostream>
 #include <span>
-#include <stdexcept>
 #include <utility>
 
 #include <openssl/evp.h>
 #include <openssl/sha.h>
 
 module core.hash;
+import core.exceptions;
 
 namespace core {
 Sha256Digest sha256(std::span<const std::byte> data) {
@@ -19,11 +19,6 @@ Sha256Digest sha256(std::span<const std::byte> data) {
          reinterpret_cast<unsigned char *>(digest.data()));
   return digest;
 }
-
-class hash_error : public std::runtime_error {
-public:
-  explicit hash_error(std::string msg) : std::runtime_error(std::move(msg)) {}
-};
 
 Sha256Context::Sha256Context() { reset(); }
 
@@ -49,7 +44,7 @@ Sha256Context &Sha256Context::operator=(Sha256Context &&other) noexcept {
 
 void Sha256Context::update(std::span<const std::byte> data) {
   if (state_ == State::Uninitialized)
-    throw hash_error{"Uninitialized context. Reset first."};
+    throw invalid_context_error{};
   if (state_ == State::Finalized)
     throw hash_error("Context is finalized. Reset first.");
   if (EVP_DigestUpdate(ctx_, data.data(), data.size()) != 1)
@@ -58,7 +53,7 @@ void Sha256Context::update(std::span<const std::byte> data) {
 
 Sha256Digest Sha256Context::final() {
   if (state_ == State::Uninitialized)
-    throw hash_error{"Uninitialized context. Reset first"};
+    throw invalid_context_error{};
   unsigned int outlen = 0;
   if (state_ == State::Finalized)
     return last_digest_;

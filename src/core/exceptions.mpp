@@ -1,0 +1,16 @@
+module;
+#include <stdexcept>
+
+export module core.exceptions;
+export namespace core {
+class hash_error : public std::runtime_error {
+public:
+  explicit hash_error(std::string msg)
+      : std::runtime_error("[Core/Hash] " + msg) {}
+};
+class invalid_context_error : public hash_error {
+public:
+  explicit invalid_context_error()
+      : hash_error("[HashContext] Uninitialized context. Reset first.") {}
+};
+} // namespace core
