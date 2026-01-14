@@ -13,7 +13,10 @@ using Sha256Digest = std::array<std::byte, SHA256_SIZE>;
 Sha256Digest sha256(std::span<const std::byte> data);
 class Sha256Context {
 private:
-  EVP_MD_CTX *ctx_;
+  enum class State { Uninitialized, Updating, Finalized };
+  EVP_MD_CTX *ctx_ = nullptr;
+  Sha256Digest last_digest_;
+  State state_ = State::Uninitialized;
 
 public:
   Sha256Context();
@@ -24,6 +27,10 @@ public:
   Sha256Context &operator=(Sha256Context &&) noexcept;
   void update(std::span<const std::byte>);
   Sha256Digest final();
+  bool finalized() const;
+  void invalidate();
+  bool valid() const;
+  void reset();
 };
 } // namespace core
 
