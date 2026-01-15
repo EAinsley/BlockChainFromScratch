@@ -1,16 +1,27 @@
 module;
 
+#include <array>
+#include <cstddef>
 #include <openssl/evp.h>
 #include <ostream>
 #include <span>
 
+#include <openssl/evp.h>
+#include <openssl/sha.h>
 export module core.hash;
+import core.concepts;
 
 export namespace core {
 constexpr std::size_t SHA256_SIZE = 32;
 using Sha256Digest = std::array<std::byte, SHA256_SIZE>;
 
-Sha256Digest sha256(std::span<const std::byte> data);
+template <Sha256DataHashable T> Sha256Digest sha256(const T &v) {
+  Sha256Digest digest;
+  SHA256(reinterpret_cast<const unsigned char *>(v.data()), v.size(),
+         reinterpret_cast<unsigned char *>(digest.data()));
+  return digest;
+}
+
 class Sha256Context {
 private:
   enum class State { Uninitialized, Updating, Finalized };
@@ -32,6 +43,7 @@ public:
   bool valid() const;
   void reset();
 };
+
 } // namespace core
 
 export std::ostream &operator<<(std::ostream &os,

@@ -10,8 +10,13 @@ add_requires("openssl")
 add_requires("catch2", {system = false})
 add_requires("drogon")
 
+target("core_concepts")
+    set_kind("moduleonly")
+    add_files("src/core/concepts.mpp")
+
 target("core_modules")
   set_kind("moduleonly")
+  add_deps("core_concepts")
   add_files("src/core/*.mpp")
 
 target("core")

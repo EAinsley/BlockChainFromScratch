@@ -13,13 +13,6 @@ module core.hash;
 import core.exceptions;
 
 namespace core {
-Sha256Digest sha256(std::span<const std::byte> data) {
-  Sha256Digest digest;
-  SHA256(reinterpret_cast<const unsigned char *>(data.data()), data.size(),
-         reinterpret_cast<unsigned char *>(digest.data()));
-  return digest;
-}
-
 Sha256Context::Sha256Context() { reset(); }
 
 Sha256Context::~Sha256Context() {
