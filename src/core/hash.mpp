@@ -36,6 +36,7 @@ public:
   Sha256Context &operator=(const Sha256Context &) = delete;
   Sha256Context(Sha256Context &&) noexcept;
   Sha256Context &operator=(Sha256Context &&) noexcept;
+
   void update(std::span<const std::byte>);
   Sha256Digest final();
   bool finalized() const;

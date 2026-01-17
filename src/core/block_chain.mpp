@@ -1,0 +1,34 @@
+module;
+#include <cstddef>
+#include <cstdint>
+#include <optional>
+#include <vector>
+export module core.block_chain;
+import core.hash;
+
+export namespace core {
+using BlockPayload = std::vector<std::byte>;
+struct Block {
+  uint64_t index = 0;
+  uint64_t nonce = 0;
+  BlockPayload payload;
+  void hash_feed(Sha256Context &ctx) const;
+};
+using HashBlock = std::pair<Block, Sha256Digest>;
+class BlockChain {
+private:
+  std::vector<HashBlock> chain_;
+  size_t target_ = 16;
+  int id_ = 0;
+  bool _block_verified(const Block &block) const;
+  bool _hash_verified(const Sha256Digest digest) const;
+  Sha256Digest _block_hash(const Block &block) const;
+
+public:
+  bool add_block(const BlockPayload &payload, uint64_t nonce);
+  const Block &find_block(uint64_t index);
+  void set_target(int target);
+  size_t target() const;
+  size_t size() const;
+};
+} // namespace core
