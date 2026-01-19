@@ -1,6 +1,7 @@
 module;
 #include <cstddef>
 #include <cstdint>
+#include <span>
 #include <vector>
 export module core.block_chain;
 import core.hash;
@@ -20,14 +21,16 @@ private:
   size_t target_ = 16;
   int id_ = 0;
   bool _block_verified(const Block &block) const;
-  bool _hash_verified(const Sha256Digest& digest) const;
+  bool _hash_verified(const Sha256Digest &digest) const;
   Sha256Digest _block_hash(const Block &block) const;
 
 public:
+  using ChainView = std::span<const HashBlock>;
+  ChainView blocks() const noexcept;
   bool add_block(const BlockPayload &payload, uint64_t nonce);
   const Block &find_block(uint64_t index);
   void set_target(int target);
-  size_t target() const;
-  size_t size() const;
+  size_t target() const noexcept;
+  size_t size() const noexcept;
 };
 } // namespace core

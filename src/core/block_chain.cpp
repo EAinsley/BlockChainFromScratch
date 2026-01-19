@@ -44,7 +44,8 @@ bool BlockChain::add_block(const BlockPayload &payload, uint64_t nonce) {
 void BlockChain::set_target(int target) {
   target_ = std::clamp(target, 0, int(SHA256_SIZE));
 }
-size_t BlockChain::target() const { return target_; }
+size_t BlockChain::target() const noexcept { return target_; }
 
-size_t BlockChain::size() const { return chain_.size(); }
+size_t BlockChain::size() const noexcept { return chain_.size(); }
+BlockChain::ChainView BlockChain::blocks() const noexcept { return chain_; }
 } // namespace core

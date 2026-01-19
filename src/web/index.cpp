@@ -1,12 +1,12 @@
-#include "drogon/HttpResponse.h"
-#include <cstddef>
 #include <drogon/HttpAppFramework.h>
 #include <drogon/HttpRequest.h>
+#include <drogon/HttpResponse.h>
 #include <drogon/HttpTypes.h>
 #include <drogon/drogon.h>
-#include <sstream>
 #include <strings.h>
 #include <trantor/utils/Logger.h>
+
+#include "controllers/block_chain_controller.h"
 
 import core.hash; // C++20 module
 import core.block_chain;
@@ -134,6 +134,11 @@ int main() {
         callback(resp);
       },
       {drogon::Post});
+
+  // drogon::app().registerHandler(
+  //     "/blockchain", [](const drogon::HttpRequestPtr &req, auto &&callback) {
+  //
+  //   });
   LOG_INFO << "Server running on localhost:8898";
   drogon::app().addListener("127.0.0.1", 8898).run();
 }
