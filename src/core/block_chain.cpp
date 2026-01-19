@@ -12,22 +12,8 @@ void Block::hash_feed(Sha256Context &ctx) const {
 }
 
 bool BlockChain::_block_verified(const Block &block) const { return false; }
-bool BlockChain::_hash_verified(const Sha256Digest digest) const {
-  std::size_t full_bytes = target_ / 8;
-  std::size_t rem_bits = target_ % 8;
-
-  for (std::size_t i = 0; i < full_bytes; ++i) {
-    if (digest[i] != std::byte{0})
-      return false;
-  }
-
-  if (rem_bits > 0) {
-    unsigned mask = 0xff << (8 - rem_bits);
-    auto byte = std::to_integer<unsigned>(digest[full_bytes]);
-    if ((byte & mask) != 0)
-      return false;
-  }
-  return true;
+bool BlockChain::_hash_verified(const Sha256Digest &digest) const {
+  return verify_hash_difficulty(digest, target_);
 }
 
 Sha256Digest BlockChain::_block_hash(const Block &block) const {

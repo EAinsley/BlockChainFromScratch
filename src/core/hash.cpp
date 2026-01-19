@@ -78,6 +78,25 @@ void Sha256Context::reset() {
   }
   state_ = State::Updating;
 }
+
+bool verify_hash_difficulty(const Sha256Digest& digest, size_t difficulty) {
+
+  std::size_t full_bytes = difficulty / 8;
+  std::size_t rem_bits = difficulty % 8;
+
+  for (std::size_t i = 0; i < full_bytes; ++i) {
+    if (digest[i] != std::byte{0})
+      return false;
+  }
+
+  if (rem_bits > 0) {
+    unsigned mask = 0xff << (8 - rem_bits);
+    auto byte = std::to_integer<unsigned>(digest[full_bytes]);
+    if ((byte & mask) != 0)
+      return false;
+  }
+  return true;
+}
 } // namespace core
 
 std::ostream &operator<<(std::ostream &os, const core::Sha256Digest &digest) {

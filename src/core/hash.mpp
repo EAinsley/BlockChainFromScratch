@@ -22,6 +22,8 @@ template <Sha256DataHashable T> Sha256Digest sha256(const T &v) {
   return digest;
 }
 
+bool verify_hash_difficulty(const Sha256Digest& digest, size_t difficulty);
+
 class Sha256Context {
 private:
   enum class State { Uninitialized, Updating, Finalized };

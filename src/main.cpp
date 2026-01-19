@@ -5,9 +5,11 @@
 #include <drogon/HttpTypes.h>
 #include <drogon/drogon.h>
 #include <sstream>
+#include <strings.h>
 #include <trantor/utils/Logger.h>
 
 import core.hash; // C++20 module
+import core.block_chain;
 
 void setupCors() {
   // Register sync advice to handle CORS preflight (OPTIONS) requests
@@ -78,6 +80,7 @@ void setupCors() {
 
 int main() {
   setupCors();
+  // Hash
   drogon::app().registerHandler(
       "/hash",
       [](const drogon::HttpRequestPtr &req,
@@ -90,7 +93,6 @@ int main() {
           callback(resp);
           return;
         }
-        LOG_INFO << "Received data\n";
         const std::string input = (*json)["data"].asString();
         const auto *raw = reinterpret_cast<const std::byte *>(input.data());
         std::span<const std::byte> bytes{raw, input.size()};
@@ -99,6 +101,31 @@ int main() {
         std::ostringstream oss;
         oss << digest;
 
+        Json::Value result;
+        result["hash"] = oss.str();
+        auto resp = drogon::HttpResponse::newHttpJsonResponse(result);
+        resp->addHeader("Access-Control-Allow-Origin", "*");
+        resp->addHeader("Access-Control-Allow-Methods", "POST");
+        callback(resp);
+      },
+      {drogon::Post});
+
+  drogon::app().registerHandler(
+      "/block",
+      [](const drogon::HttpRequestPtr &req,
+         std::function<void(const drogon::HttpResponsePtr &)> &&callback) {
+        auto json = req->getJsonObject();
+        const auto index = (*json)["index"].asUInt64();
+        const auto nonce = (*json)["nonce"].asUInt64();
+        const auto &data = (*json)["data"].asString();
+        const core::BlockPayload payload(
+            reinterpret_cast<const std::byte *>(data.data()),
+            reinterpret_cast<const std::byte *>(data.data() + data.size()));
+        core::Block block(index, nonce, payload);
+        core::Sha256Context ctx;
+        block.hash_feed(ctx);
+        std::ostringstream oss;
+        oss << ctx.final();
         Json::Value result;
         result["hash"] = oss.str();
         auto resp = drogon::HttpResponse::newHttpJsonResponse(result);
