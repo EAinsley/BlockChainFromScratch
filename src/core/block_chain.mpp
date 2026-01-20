@@ -18,13 +18,13 @@ using HashBlock = std::pair<Block, Sha256Digest>;
 class BlockChain {
 private:
   std::vector<HashBlock> chain_;
-  size_t target_ = 1;
+  size_t target_ = 4;
   int id_ = 0;
   bool _block_verified(const Block &block) const;
   bool _hash_verified(const Sha256Digest &digest) const;
-  Sha256Digest _block_hash(const Block &block) const;
 
 public:
+  Sha256Digest block_hash(const Block &block) const;
   using ChainView = std::span<const HashBlock>;
   ChainView blocks() const noexcept;
   bool add_block(const BlockPayload &payload, uint64_t nonce);
@@ -32,5 +32,6 @@ public:
   void set_target(int target);
   size_t target() const noexcept;
   size_t size() const noexcept;
+  Block construct_block(const BlockPayload &payload, uint64_t nonce) const;
 };
 } // namespace core

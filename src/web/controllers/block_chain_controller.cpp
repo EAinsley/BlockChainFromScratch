@@ -101,27 +101,17 @@ void BlockchainController::compute_block_hash(
       reinterpret_cast<const std::byte *>(payloadStr.data() +
                                           payloadStr.size()));
 
-  core::Block block{index, nonce, payload};
+  core::Block block = blockchain_.construct_block(payload, nonce);
 
-  core::Sha256Context ctx;
+  core::Sha256Digest digest = blockchain_.block_hash(block);
 
-  block.hash_feed(ctx);
-  if (!prevHashStr.empty()) {
-    std::span<const std::byte> prevHashBytes(
-        reinterpret_cast<const std::byte *>(prevHashStr.data()),
-        prevHashStr.size());
-    ctx.update(prevHashBytes);
-  } else {
-    ctx.update(core::Sha256Digest{});
-  }
-
-  core::Sha256Digest digest = ctx.final();
 
   std::ostringstream oss;
   oss << digest;
 
   Json::Value result;
   result["hash"] = oss.str();
+  result["valid"] = core::verify_hash_difficulty(digest, blockchain_.target());
 
   auto resp = drogon::HttpResponse::newHttpJsonResponse(result);
   resp->addHeader("Access-Control-Allow-Origin", "*");

@@ -16,7 +16,7 @@ bool BlockChain::_hash_verified(const Sha256Digest &digest) const {
   return verify_hash_difficulty(digest, target_);
 }
 
-Sha256Digest BlockChain::_block_hash(const Block &block) const {
+Sha256Digest BlockChain::block_hash(const Block &block) const {
   Sha256Context ctx;
   block.hash_feed(ctx);
   if (chain_.empty()) {
@@ -28,14 +28,10 @@ Sha256Digest BlockChain::_block_hash(const Block &block) const {
 }
 
 bool BlockChain::add_block(const BlockPayload &payload, uint64_t nonce) {
-  Block block(0, nonce, payload);
-  if (!chain_.empty()) {
-    const auto prev_block = chain_.back();
-    block.index = prev_block.first.index + 1;
-  }
-  Sha256Digest block_hash = _block_hash(block);
-  if (_hash_verified(block_hash)) {
-    chain_.emplace_back(std::move(block), block_hash);
+  Block block = construct_block(payload, nonce);
+  Sha256Digest block_digest = block_hash(block);
+  if (_hash_verified(block_digest)) {
+    chain_.emplace_back(std::move(block), block_digest);
     return true;
   }
   return false;
@@ -48,4 +44,12 @@ size_t BlockChain::target() const noexcept { return target_; }
 
 size_t BlockChain::size() const noexcept { return chain_.size(); }
 BlockChain::ChainView BlockChain::blocks() const noexcept { return chain_; }
+Block BlockChain::construct_block(const BlockPayload &payload, uint64_t nonce) const {
+  Block block(0, nonce, payload);
+  if (!chain_.empty()) {
+    const auto prev_block = chain_.back();
+    block.index = prev_block.first.index + 1;
+  }
+  return block;
+}
 } // namespace core
