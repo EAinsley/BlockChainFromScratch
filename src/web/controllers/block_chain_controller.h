@@ -13,6 +13,8 @@ public:
 
   ADD_METHOD_TO(BlockchainController::get_chain, "/blockchain", Get);
   ADD_METHOD_TO(BlockchainController::add_block, "/blockchain", Post);
+  ADD_METHOD_TO(BlockchainController::compute_block_hash, "/blockchain/hash",
+                Post);
 
   METHOD_LIST_END
 
@@ -21,6 +23,10 @@ protected:
                  std::function<void(const HttpResponsePtr &)> &&callback);
   void add_block(const HttpRequestPtr &req,
                  std::function<void(const HttpResponsePtr &)> &&callback);
+
+  void compute_block_hash(
+      const drogon::HttpRequestPtr &req,
+      std::function<void(const drogon::HttpResponsePtr &)> &&callback);
 
 private:
   core::BlockChain blockchain_;

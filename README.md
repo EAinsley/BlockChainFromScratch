@@ -38,16 +38,16 @@ Basic build and test instructions will be expanded as the project evolves.
         The frontend is [separated](https://github.com/EAinsley/BlockChainFromScratchFrontend).
   - [x] Setup basic unit testing framework and verify Hash tests
 
-- [-] Stage 1 – Block & Blockchain Core
+- [] Stage 1 – Block & Blockchain Core
   - [x] Design Block data structure (header, nonce, hash link)
-  - [-] Implement Blockchain container and basic validation
+  - [x] Implement Blockchain container and basic validation
   - [x] Integrate Block with Hash functions
     - [x] Implemented Sha256Context for updating the hash
 
 - [ ] Stage 2 – Mining & Proof-of-Work
-  - [ ] Manual mining interface (adjust nonce, test hash)
+  - [x] Manual mining interface (adjust nonce, test hash)
   - [ ] Automated mining (single-threaded)
-  - [ ] Configurable difficulty adjustment
+  - [-] Configurable difficulty adjustment
 
 - [ ] Stage 3 – Multi-node Simulation
   - [ ] Multiple nodes maintaining separate chains

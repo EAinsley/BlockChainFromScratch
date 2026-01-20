@@ -18,7 +18,7 @@ using HashBlock = std::pair<Block, Sha256Digest>;
 class BlockChain {
 private:
   std::vector<HashBlock> chain_;
-  size_t target_ = 16;
+  size_t target_ = 1;
   int id_ = 0;
   bool _block_verified(const Block &block) const;
   bool _hash_verified(const Sha256Digest &digest) const;
